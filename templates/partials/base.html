@@ -66,23 +66,24 @@
 {%block content%}
 {%endblock%}
 
-<script>
-    {% for message in messages %}
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: '{{ message.tags|escapejs }}',  // success, error, warning, etc.
-            title: '{{ message|escapejs }}',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
+ 
+     <script>
+        {%for message in messages%}
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: '{{message.tags}}',
+                title: '{{message}}',
+                
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         });
-    {% endfor %}
-</script>
+        {%endfor%}
+    </script>
+
 
   <!--================ start footer Area  =================-->	
         <footer class="footer-area section_gap">

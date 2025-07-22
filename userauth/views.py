@@ -37,9 +37,9 @@ def UserRegisterView(request):
 
 
 def loginViewTemp(request):
-    if request.user.is_authenticated:
-        messages.warning(request, "You are already logged in ")
-        return redirect("hotel:index")
+    # if request.user.is_authenticated:
+    #     messages.warning(request, "You are already logged in ")
+    #     return redirect("hotel:index")
 
     if request.method == "POST":
         email = request.POST.get("email")
@@ -53,7 +53,7 @@ def loginViewTemp(request):
                 login(request, user_auth)
                 messages.success(request, "You are logged in")
                 next_url = request.GET.get("next", "hotel:index")
-                return redirect("hotel:index")
+                return redirect(next_url)
             else:
                 messages.warning(request, "username or password does not exist")
                 return redirect("userauth:sign-up")

@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from hotel.models import Hotel
+from hotel.models import (
+    ActivityLog,
+    Booking,
+    Hotel,
+    HotelFaqs,
+    HotelFeatures,
+    HotelGallery,
+    Room,
+    RoomType,
+    StaffOnDuty,
+)
 
 
 class HotelAdmin(admin.ModelAdmin):
@@ -8,4 +18,45 @@ class HotelAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+class HotelGAdmin(admin.ModelAdmin):
+    list_display = ["hgid", "hotel"]
+
+
+class HotelFtrsAdmin(admin.ModelAdmin):
+    list_display = ["hotel", "name", "icon"]
+
+
+class HotelFaqsAdmin(admin.ModelAdmin):
+    list_display = ["question", "answer", "date"]
+
+
+class RoomTypeAdmin(admin.ModelAdmin):
+    list_display = ["type", "number_of_beds", "room_capacity", "price"]
+    
+
+
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ["room_number", "room_type", "is_available"]
+
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ["hotel", "user", "room_type", "total_days", "total"]
+
+
+class ActivityLogAdmin(admin.ModelAdmin):
+    list_display = ["booking", "date"]
+
+
+class StaffOnDutyAdmin(admin.ModelAdmin):
+    list_display = ["booking", "staff_id", "date"]
+
+
 admin.site.register(Hotel, HotelAdmin)
+admin.site.register(HotelGallery, HotelGAdmin)
+admin.site.register(HotelFeatures, HotelFtrsAdmin)
+admin.site.register(HotelFaqs, HotelFaqsAdmin)
+admin.site.register(RoomType, RoomTypeAdmin)
+admin.site.register(Room, RoomAdmin)
+admin.site.register(Booking, BookingAdmin)
+admin.site.register(ActivityLog, ActivityLogAdmin)
+admin.site.register(StaffOnDuty, StaffOnDutyAdmin)

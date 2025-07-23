@@ -12,25 +12,26 @@ def UserRegisterView(request):
         return redirect("hotel:index")
 
     form = UserRegisterForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        full_name = form.cleaned_data.get("full_name")
-        email = form.cleaned_data.get("email")
-        phone = form.cleaned_data.get("phone")
-        password = form.cleaned_data.get("password1")
+    if request.method=='POST':
+        if form.is_valid():
+            form.save()
+            full_name = form.cleaned_data.get("full_name")
+            email = form.cleaned_data.get("email")
+            phone = form.cleaned_data.get("phone")
+            password = form.cleaned_data.get("password1")
 
-        user = authenticate(request, email=email, password=password)
-        login(request, user)
+            user = authenticate(request, email=email, password=password)
+            login(request, user)
 
-        messages.success(
-            request, f"Hey {full_name} .Your account has been created succefully"
-        )
+            messages.success(
+                request, f"Hey {full_name} .Your account has been created succefully"
+            )
 
-        profile = Profile.objects.get(user=user)
-        profile.full_name = full_name
-        profile.phone = phone
-        profile.save()
-        return redirect("hotel:index")
+            profile = Profile.objects.get(user=user)
+            profile.full_name = full_name
+            profile.phone = phone
+            profile.save()
+            return redirect("hotel:index")
 
     context = {"form": form}
     return render(request, "userauth/sign_up.html", context)

@@ -86,6 +86,12 @@ class Hotel(models.Model):
     def hotel_features(self):
         return HotelFeatures.objects.filter(hotel=self)
 
+    def room_type(self):
+        return RoomType.objects.filter(hotel=self)
+
+    def rooms(self):
+        return Room.objects.filter(hotel=self)
+
 
 class HotelGallery(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
@@ -132,6 +138,7 @@ class HotelFaqs(models.Model):
 class RoomType(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     type = models.CharField(max_length=10)
+    image = models.ImageField(upload_to="rooms_type", null=True, blank=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     number_of_beds = models.PositiveIntegerField(default=0)
     room_capacity = models.PositiveIntegerField(default=0)
@@ -174,6 +181,7 @@ class Room(models.Model):
     class Meta:
         verbose_name_plural = "Rooms"
 
+    @property
     def price(self):
         return self.room_type.price
 

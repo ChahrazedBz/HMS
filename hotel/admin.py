@@ -18,9 +18,13 @@ class HotelGalleryInline(admin.TabularInline):
 
 class HotelFeaturesInline(admin.TabularInline):
     model=HotelFeatures
+
+class RoomTypeInline(admin.TabularInline):
+    model=RoomType
+
     
 class HotelAdmin(admin.ModelAdmin):
-    inlines = [HotelGalleryInline,HotelFeaturesInline]
+    inlines = [HotelGalleryInline,HotelFeaturesInline,RoomTypeInline]
     list_display = ["thumbnail", "name", "user", "status"]
     prepopulated_fields = {"slug": ("name",)}
 

@@ -92,18 +92,18 @@
                 <div class="room_types_section">
                     <h3 class="section_title">Room Types</h3>
                     <div class="room_types_container">
-                        {% for room in hotel.rooms.all %}
+                        {% for room in hotel.room_type.all %}
                         <div class="room_type_card">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <img src="#" alt="#" class="room_image">
+                                    <img src="{{room.image.url}}" alt="#" class="room_image">
                                 </div>
                                 <div class="col-md-5">
                                     <h4>{{ room.type }}</h4>
                                     <ul class="room_features">
-                                        <li><i class="fa fa-user"></i> {{ room.capacity }} Guests</li>
-                                        <li><i class="fa fa-bed"></i> {{ room.bed_type }}</li>
-                                        <li><i class="fa fa-arrows-alt"></i> {{ room.size }} sq.ft</li>
+                                        <li><i class="fa fa-user"></i> {{ room.room_capacity}} Guests</li>
+                                        <li><i class="fa fa-bed"></i> {{ room.number_of_beds}}</li>
+                                        <!-- <li><i class="fa fa-arrows-alt"></i> {{ room.size }} sq.ft</li> -->
                                     </ul>
                                 </div>
                                 <div class="col-md-3">

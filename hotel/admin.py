@@ -3,6 +3,7 @@ from django.contrib import admin
 from hotel.models import (
     ActivityLog,
     Booking,
+    Coupon,
     Hotel,
     HotelFaqs,
     HotelFeatures,
@@ -32,7 +33,6 @@ class HotelFaqsAdmin(admin.ModelAdmin):
 
 class RoomTypeAdmin(admin.ModelAdmin):
     list_display = ["type", "number_of_beds", "room_capacity", "price"]
-    
 
 
 class RoomAdmin(admin.ModelAdmin):
@@ -51,6 +51,10 @@ class StaffOnDutyAdmin(admin.ModelAdmin):
     list_display = ["booking", "staff_id", "date"]
 
 
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ["type", "code", "discount", "redemptions", "active"]
+
+
 admin.site.register(Hotel, HotelAdmin)
 admin.site.register(HotelGallery, HotelGAdmin)
 admin.site.register(HotelFeatures, HotelFtrsAdmin)
@@ -60,3 +64,4 @@ admin.site.register(Room, RoomAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(ActivityLog, ActivityLogAdmin)
 admin.site.register(StaffOnDuty, StaffOnDutyAdmin)
+admin.site.register(Coupon, CouponAdmin)

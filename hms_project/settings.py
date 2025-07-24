@@ -212,3 +212,20 @@ JAZZMIN_UI_TWEAKS = {
 
 
 AUTH_USER_MODEL = "userauth.User"
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'theme': 'custom',  
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'link', 'bulletedList', 'numberedList', '|',
+            'blockQuote', 'insertTable', 'imageUpload', 'mediaEmbed', '|',
+            'code', 'codeBlock', '|',
+            'undo', 'redo'
+        ],
+        'language': 'en',
+    }
+}
+
+

@@ -2,6 +2,7 @@ import shortuuid
 from django.db import models
 from django.utils.html import mark_safe
 from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
 from shortuuid.django_fields import ShortUUIDField
 
 from userauth.models import User
@@ -40,7 +41,7 @@ PAYMENT_STATUS = (
 class Hotel(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=300)
+    description = CKEditor5Field(null=True, blank=True, config_name="default")
     image = models.FileField(upload_to="Hotel_gallery")
     address = models.CharField(max_length=200)
     email = models.EmailField(unique=True, max_length=100)
@@ -233,3 +234,20 @@ class StaffOnDuty(models.Model):
 
     def __str__(self):
         return f"{self.staff_id}"
+
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=1000)
+    type = models.CharField(max_length=100, default="Percentage")
+    discount = models.IntegerField(default=1)
+    redemptions = models.IntegerField(default=0)
+    date = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+    cid = ShortUUIDField(
+        unique=True, length=10, max_length=20, alphabet="abxchdjkiryteqolp"
+    )
+
+    def __str__(self):
+        return str(self.cid)

@@ -4,6 +4,7 @@ from django.utils.html import mark_safe
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 from shortuuid.django_fields import ShortUUIDField
+from taggit.managers import TaggableManager
 
 from userauth.models import User
 
@@ -47,10 +48,14 @@ class Hotel(models.Model):
     email = models.EmailField(unique=True, max_length=100)
     mobile = models.CharField(max_length=100)
 
-    tags = models.CharField(max_length=20, help_text="seperate tags with comma")
+    tags = TaggableManager(blank=True)
     views = models.PositiveIntegerField(default=0)
     featured = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
+
+    facebook = models.URLField(max_length=100, default="https://facebook.com")
+    instagram = models.URLField(max_length=100, default="https://facebook.com")
+    twitter = models.URLField(max_length=100, default="https://facebook.com")
 
     hid = ShortUUIDField(
         unique=True, length=10, max_length=20, alphabet="abxchdjkiryteqolp"
@@ -74,6 +79,12 @@ class Hotel(models.Model):
             "<img src='%s' width='50' height='50' style='object-fit: cover; border-radius: 6px;' />"
             % self.image.url
         )
+
+    def hotel_gallery(self):
+        return HotelGallery.objects.filter(hotel=self)
+
+    def hotel_features(self):
+        return HotelFeatures.objects.filter(hotel=self)
 
 
 class HotelGallery(models.Model):

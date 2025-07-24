@@ -192,6 +192,66 @@
             </div>
         </section>
         <!--================ Facilities Area  =================-->
+
+        <!--================ Popular Tours Area =================-->
+        <section class="popular_tours_area section_gap">
+            <div class="container">
+                <div class="section_title text-center">
+                    <h2 class="title_color">Our Popular Tours</h2>
+                    <p>Discover our finest hotel destinations with exceptional amenities and breathtaking views</p>
+                </div>
+                <div class="row">
+                    <!-- Hotel 1 -->
+                    {%for hotel in hotels%}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single_tour">
+                            <div class="tour_img">
+                                <a href="{% url 'hotel:hotel_detail' hotel.slug %}"><img src="{{hotel.image.url}}" alt="Hotel Royal"></a>
+                                
+                                <div class="tour_tag">
+                                    <span class="price">From $199</span>
+                                    {%if hotel.featured %}
+                                    <span class="open">featured</span>
+                                    {%endif%}
+                                    <span class="wishlist"><i class="fa fa-heart"></i></span>
+                                </div>
+                            </div>
+                            <div class="tour_content">
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                    <span>(128 reviews)</span>
+                                </div>
+                                <h4><a href="{% url 'hotel:hotel_detail' hotel.slug %}">{{hotel.name}}</a></h4>
+                                <p class="location"><i class="fa fa-map-marker"></i> {{hotel.address}}</p>
+                                <p class="contact-info">
+                                    <i class="fa fa-phone"></i> {{hotel.mobile}}
+                                </p>
+                                <p class="contact-info">
+                                    <i class="fa fa-envelope"></i> {{hotel.email}}
+                                </p>
+                                <div class="features">
+                                    <span><i class="fa fa-wifi"></i> Free WiFi</span>
+                                    <span><i class="fa fa-coffee"></i> Breakfast</span>
+                                    <span><i class="fa fa-sun-o"></i> Ocean View</span>
+                                </div>
+                                <div class="bottom_meta">
+                                    <a href="{% url 'hotel:hotel_detail' hotel.slug %}" class="btn theme_btn button_hover">Book Now</a>
+                                    <div class="views">
+                                        <i class="fa fa-eye"></i> {{hotel.views}} views
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </section>
+        <!--================ Popular Tours Area =================-->
         
         <!--================ About History Area  =================-->
         <section class="about_history_area section_gap">
@@ -200,7 +260,7 @@
                     <div class="col-md-6 d_flex align-items-center">
                         <div class="about_content ">
                             <h2 class="title title_color">About Us <br>Our History<br>Mission & Vision</h2>
-                            <p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.</p>
+                            <p>inappropriate behavior is often laughed off as "boys will be boys," women face higher conduct standards especially in the workplace. That's why it's crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.</p>
                             <a href="#" class="button_hover theme_btn_two">Request Custom Price</a>
                         </div>
                     </div>
@@ -300,7 +360,7 @@
                                     <a href="#" class="button_hover tag_btn">Life Style</a>
                                 </div>
                                 <a href="#"><h4 class="sec_h4">Low Cost Advertising</h4></a>
-                                <p>Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.</p>
+                                <p>Acres of Diamonds... you've read the famous story, or at least had it related to you. A farmer.</p>
                                 <h6 class="date title_color">31st January,2018</h6>
                             </div>	
                         </div>
@@ -342,4 +402,4 @@
         </section>
         <!--================ Recent Area  =================-->
         
-{%endblock%}    
+{%endblock%}

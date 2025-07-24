@@ -1,0 +1,384 @@
+/* Hotel Slider */
+.hotel_slider_area {
+    position: relative;
+    height: 70vh;
+    overflow: hidden;
+}
+
+.hotel_slider .slider_item {
+    height: 70vh;
+}
+
+.hotel_slider .slider_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.owl-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel .owl-nav button.owl-next {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.3) !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    font-size: 24px !important;
+    transition: all 0.3s;
+}
+
+.owl-carousel .owl-nav button.owl-prev:hover,
+.owl-carousel .owl-nav button.owl-next:hover {
+    background: rgba(255,255,255,0.7) !important;
+}
+
+.owl-carousel .owl-nav button.owl-prev {
+    left: 30px;
+}
+
+.owl-carousel .owl-nav button.owl-next {
+    right: 30px;
+}
+
+.owl-carousel .owl-dots {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Hotel Details */
+.hotel_details_header {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+}
+
+.hotel_title {
+    font-size: 36px;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.rating_box {
+    display: flex;
+    align-items: center;
+}
+
+.rating_box .rating {
+    color: #ffc107;
+    margin-right: 10px;
+}
+
+.rating_box span {
+    color: #777;
+}
+
+.location_meta p {
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 15px;
+    background: #f5f5f5;
+    border-radius: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.badge i {
+    margin-right: 5px;
+    color: #1ec6b6;
+}
+
+.section_title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section_title:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: #1ec6b6;
+}
+
+.amenities_list {
+    list-style: none;
+    padding: 0;
+}
+
+.amenities_list li {
+    margin-bottom: 10px;
+}
+
+.amenities_list i {
+    color: #1ec6b6;
+    margin-right: 10px;
+}
+
+/* Room Types */
+.room_type_card {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.room_type_card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.room_image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.room_features {
+    list-style: none;
+    padding: 0;
+    color: #777;
+}
+
+.room_features li {
+    margin-bottom: 8px;
+}
+
+.room_features i {
+    margin-right: 8px;
+    color: #1ec6b6;
+}
+
+.room_price {
+    text-align: right;
+}
+
+.room_price span {
+    font-size: 24px;
+    color: #ff4a52;
+    font-weight: 600;
+}
+
+.room_price small {
+    display: block;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.book_btn {
+    background: #1ec6b6;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.book_btn:hover {
+    background: #ff4a52;
+    color: #fff;
+}
+
+/* Booking Widget */
+.booking_widget {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.widget_header {
+    background: #1ec6b6;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+.widget_header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.widget_body {
+    padding: 20px;
+}
+
+.booking_btn {
+    background: #ff4a52;
+    color: #fff;
+    padding: 12px;
+    margin-top: 15px;
+}
+
+.booking_btn:hover {
+    background: #1ec6b6;
+    color: #fff;
+}
+
+.widget_footer {
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.contact_info h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.contact_info p {
+    margin-bottom: 10px;
+    color: #777;
+}
+
+.contact_info i {
+    margin-right: 10px;
+    color: #1ec6b6;
+    width: 16px;
+    text-align: center;
+}
+
+.social_links {
+    margin-top: 20px;
+}
+
+.social_links a {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background: #fff;
+    color: #1ec6b6;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 35px;
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Reviews */
+.review_card {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.review_header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reviewer_img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.reviewer_info h5 {
+    margin: 0 0 5px 0;
+}
+
+.review_date {
+    color: #777;
+    font-size: 13px;
+    display: block;
+    margin-top: 10px;
+}
+
+.view_all_reviews {
+    background: #1ec6b6;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 3px;
+}
+
+.view_all_reviews:hover {
+    background: #ff4a52;
+    color: #fff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .hotel_title {
+        font-size: 28px;
+    }
+    
+    .room_type_card .row > div {
+        margin-bottom: 15px;
+    }
+    
+    .room_price {
+        text-align: left;
+    }
+}
+
+@media (max-width: 767px) {
+    .hotel_slider_area,
+    .hotel_slider .slider_item {
+        height: 50vh;
+    }
+    
+    .section_title {
+        font-size: 20px;
+    }
+}
+/* Tags Section Styling */
+.tags_section {
+    margin: 30px 0;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.tags_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.tag_pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: #f5f7fa;
+    color: #4a5568;
+    border-radius: 50px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.tag_pill:hover {
+    background-color: #1ec6b6;
+    color: white;
+}
+.tag_pill i {
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.tag_pill:hover i {
+    color: white;
+}

@@ -13,14 +13,23 @@ from hotel.models import (
     StaffOnDuty,
 )
 
+class HotelGalleryInline(admin.TabularInline):
+    model = HotelGallery
 
+class HotelFeaturesInline(admin.TabularInline):
+    model=HotelFeatures
+    
 class HotelAdmin(admin.ModelAdmin):
+    inlines = [HotelGalleryInline,HotelFeaturesInline]
     list_display = ["thumbnail", "name", "user", "status"]
     prepopulated_fields = {"slug": ("name",)}
 
 
 class HotelGAdmin(admin.ModelAdmin):
     list_display = ["hgid", "hotel"]
+
+
+
 
 
 class HotelFtrsAdmin(admin.ModelAdmin):

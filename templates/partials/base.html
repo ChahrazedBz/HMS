@@ -18,8 +18,10 @@
         <!-- main css -->
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/hotel-details.css' %}">
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
     <body>
         <!--================Header Area =================-->
@@ -180,5 +182,24 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         <script src="{% static 'js/stellar.js' %}"></script>
         <script src="{% static 'vendors/lightbox/simpleLightbox.min.js' %}"></script>
         <script src="{% static 'js/custom.js' %}"></script>
+
+        <script>
+$(document).ready(function(){
+    // Initialize hotel image slider with autoplay
+    $('.hotel_slider').owlCarousel({
+        items: 1,
+        loop: true,
+        margin: 0,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
+        nav: true,
+        dots: true,
+        animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+        smartSpeed: 1000
+    });
+});
+</script>
     </body>
 </html>

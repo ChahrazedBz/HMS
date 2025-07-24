@@ -1,0 +1,247 @@
+
+{%extends 'partials/base.html'%}     
+{%load static%}
+{%block content%}
+
+    <!-- Hotel Image Slider Section -->
+<section class="hotel_slider_area">
+    <div class="hotel_slider owl-carousel">
+        {%for image in hotel.hotel_gallery.all%}
+        <div class="slider_item">
+            <img src="{{ image.image.url }}" alt="{{ hotel.name }} Image {{ forloop.counter }}">
+        </div>
+        {%endfor%}
+    </div>
+</section>
+
+<!-- Hotel Details Section -->
+<section class="hotel_details_area section_gap">
+    <div class="container">
+        <div class="row">
+            <!-- Main Hotel Info -->
+            <div class="col-lg-8">
+                <div class="hotel_details_header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="hotel_title">{{ hotel.name }}</h1>
+                        <div class="rating_box">
+                            <div class="rating">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= hotel.rating %}
+                                        <i class="fa fa-star"></i>
+                                    {% else %}
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <span>{{ hotel.review_count }} reviews</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location_meta">
+                        <p><i class="fa fa-map-marker"></i> {{ hotel.address }}</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge"><i class="fa fa-wifi"></i> Free WiFi</span>
+                            <span class="badge"><i class="fa fa-parking"></i> Free Parking</span>
+                            <span class="badge"><i class="fa fa-swimming-pool"></i> Pool</span>
+                            <span class="badge"><i class="fa fa-utensils"></i> Restaurant</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+                    <h3 class="section_title">Popular Tags</h3>
+                    <div class="tags_container">
+                        {% for tag in hotel.tags.all %}
+                        <a href="#" class="tag_pill">
+                            <i class="fas fa-hashtag"></i> {{ tag }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                <br>
+                <br>
+
+                <!-- Hotel Description -->
+                <div class="hotel_description">
+                    <h3 class="section_title">About This Hotel</h3>
+                    <p>{{ hotel.description|safe }}</p>
+                </div>
+
+                <!-- Amenities Section -->
+                <div class="amenities_section">
+                    <h3 class="section_title">Amenities</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="amenities_list">
+                                {% for feature in left_features %}
+                                <li><i class="fa fa-check"></i> {{feature.name}}</li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="amenities_list">
+                                {% for feature in right_features %}
+                                <li><i class="fa fa-check"></i>{{feature.name}}</li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Types -->
+                <div class="room_types_section">
+                    <h3 class="section_title">Room Types</h3>
+                    <div class="room_types_container">
+                        {% for room in hotel.rooms.all %}
+                        <div class="room_type_card">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="#" alt="#" class="room_image">
+                                </div>
+                                <div class="col-md-5">
+                                    <h4>{{ room.type }}</h4>
+                                    <ul class="room_features">
+                                        <li><i class="fa fa-user"></i> {{ room.capacity }} Guests</li>
+                                        <li><i class="fa fa-bed"></i> {{ room.bed_type }}</li>
+                                        <li><i class="fa fa-arrows-alt"></i> {{ room.size }} sq.ft</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="room_price">
+                                        <span>${{ room.price }}</span>
+                                        <small>per night</small>
+                                        <a href="#" class="btn book_btn">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Widget -->
+            <div class="col-lg-4">
+                <div class="booking_widget">
+                    <div class="widget_header">
+                        <h3>Check Availability</h3>
+                    </div>
+                    <div class="widget_body">
+                        <form>
+                            <div class="form-group">
+                                <label>Check In</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Check Out</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Guests</label>
+                                <select class="form-control">
+                                    <option>1 Adult</option>
+                                    <option>2 Adults</option>
+                                    <option>3 Adults</option>
+                                    <option>Family (2+2)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Rooms</label>
+                                <select class="form-control">
+                                    <option>1 Room</option>
+                                    <option>2 Rooms</option>
+                                    <option>3 Rooms</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-block booking_btn">Check Availability</button>
+                        </form>
+                    </div>
+                    <div class="widget_footer">
+                        <div class="contact_info">
+                            <h4>Contact Info</h4>
+                            <p><i class="fa fa-phone"></i> {{ hotel.mobile }}</p>
+                            <p><i class="fa fa-envelope"></i> {{ hotel.email }}</p>
+                            <p><i class="fa fa-map-marker"></i> {{ hotel.address }}</p>
+                        </div>
+                        <div class="social_links">
+                            <a href="{{hotel.facebook}}"><i class="fa fa-facebook"></i></a>
+                            <a href="{{hotel.twitter}}"><i class="fa fa-twitter"></i></a>
+                            <a href="{{hotel.instagram}}"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Location Map Section -->
+<section class="location_map">
+    <div class="container-fluid p-0">
+        <div class="map_container">
+            <iframe src="https://maps.google.com/maps?q={{ hotel.address|urlencode }}&output=embed" 
+                    width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews_section section_gap">
+    <div class="container">
+        <h2 class="section_title text-center">Guest Reviews</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="review_card">
+                    <div class="review_header">
+                        <img src="#" alt="User" class="reviewer_img">
+                        <div class="reviewer_info">
+                            <h5>Michael Smith</h5>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_body">
+                        <p>"The hotel was amazing! Great location, comfortable rooms and excellent service. Will definitely come back!"</p>
+                        <span class="review_date">Posted 2 weeks ago</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="review_card">
+                    <div class="review_header">
+                        <img src="#" alt="User" class="reviewer_img">
+                        <div class="reviewer_info">
+                            <h5>Sarah Johnson</h5>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_body">
+                        <p>"Absolutely loved our stay. The pool area was fantastic and the staff went above and beyond to make our vacation special."</p>
+                        <span class="review_date">Posted 1 month ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="#" class="btn view_all_reviews">View All Reviews</a>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+{%endblock%}
+

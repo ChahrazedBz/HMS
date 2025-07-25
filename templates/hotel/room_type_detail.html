@@ -1,0 +1,198 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Room Hero Section -->
+<section class="room_hero" style="background-image: url('{{ room_type.image.url }}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="room_hero_title">{{ room_type.type }} Room</h1>
+                <div class="room_hero_rating">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= room_type.hotel.rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <span>({{ room_type.hotel.review_count }} reviews)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Room Details Section -->
+<section class="room_details_section section_gap">
+    <div class="container">
+        <div class="row">
+            <!-- Room Info Column -->
+            <div class="col-lg-8">
+                <!-- Room Gallery -->
+                <div class="room_gallery mb-5">
+                    <div class="room_gallery_slider owl-carousel">
+                        {% for image in room_type.images.all %}
+                        <div class="gallery_item">
+                            <img src="{{ image.image.url }}" alt="{{ room_type.type }} Room Image">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Room Description -->
+                <div class="room_description mb-5">
+                    <h3 class="section_title">About This Room</h3>
+                    <p>{{ room_type.description }}</p>
+                </div>
+
+                <!-- Room Features -->
+                <div class="room_features mb-5">
+                    <h3 class="section_title">Room Features</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="features_list">
+                                <li><i class="fas fa-check-circle"></i> {{ room_type.room_capacity }} Guests</li>
+                                <li><i class="fas fa-check-circle"></i> {{ room_type.number_of_beds }} Beds</li>
+                                
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="features_list">
+                                {%for feature in room_type.hotel.hotel_features.all%}
+                                <li><i class="fas fa-check-circle"></i> {{feature.name}}</li>
+                                {%endfor%}
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Rooms -->
+                <div class="available_rooms">
+                    <h3 class="section_title">Available Rooms</h3>
+                    <div class="room_availability_table">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Room Number</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for room in rooms%}
+                                    <tr>
+                                        <td>{{ room.room_number}}</td>
+                                        <td>
+                                            <span class="badge badge-{% if room.is_available %}success{% else %}danger{% endif %}">
+                                                {% if room.is_available %}Available{% else %}Booked{% endif %}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if room.is_available %}
+                                            <button class="btn btn-sm book_now_btn" data-room-id="{{ room.id }}">
+                                                Book Now
+                                            </button>
+                                            {% else %}
+                                            <button class="btn btn-sm btn-secondary" disabled>
+                                                Unavailable
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Widget Column -->
+            <div class="col-lg-4">
+                <div class="booking_widget sticky-top">
+                    <div class="widget_header">
+                        <h3>Book This Room</h3>
+                    </div>
+                    <div class="widget_body">
+                        <form id="booking_form">
+                            <div class="form-group">
+                                <label>Check In</label>
+                                <input type="date" class="form-control" id="check_in_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Check Out</label>
+                                <input type="date" class="form-control" id="check_out_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Guests</label>
+                                <select class="form-control" id="guests" required>
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Rooms</label>
+                                <select class="form-control" id="rooms" required>
+                                    <option value="1">1 Room</option>
+                                    <option value="2">2 Rooms</option>
+                                    <option value="3">3 Rooms</option>
+                                </select>
+                            </div>
+                            <div class="price_summary">
+                                <div class="price_item">
+                                    <span>Room Price</span>
+                                    <span>${{ room_type.price }}</span>
+                                </div>
+                                <div class="price_item">
+                                    <span>Taxes & Fees</span>
+                                    <span>${{ room_type.tax }}</span>
+                                </div>
+                                <div class="price_total">
+                                    <span>Total</span>
+                                    <span>${{ room_type.total_price }}</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block booking_btn">Reserve Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Similar Rooms Section -->
+<section class="similar_rooms section_gap">
+    <div class="container">
+        <h2 class="section_title text-center">You May Also Like</h2>
+        <div class="row">
+            {% for similar_room in similar_rooms %}
+            <div class="col-lg-4 col-md-6">
+                <div class="similar_room_card">
+                    <img src="{{ similar_room.image.url }}" alt="{{ similar_room.type }}">
+                    <div class="similar_room_content">
+                        <h4>{{ similar_room.type }}</h4>
+                        <div class="room_meta">
+                            <span><i class="fas fa-user"></i> {{ similar_room.room_capacity }} Guests</span>
+                            <span><i class="fas fa-bed"></i> {{ similar_room.number_of_beds }} Beds</span>
+                        </div>
+                        <div class="room_price">
+                            From ${{ similar_room.price }} <small>/ night</small>
+                        </div>
+                        <a href="{% url 'room_type_detail' pk=similar_room.id %}" class="btn view_details_btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

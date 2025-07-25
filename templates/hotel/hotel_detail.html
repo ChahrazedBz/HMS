@@ -27,9 +27,9 @@
                             <div class="rating">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= hotel.rating %}
-                                        <i class="fa fa-star"></i>
+                                        <i class="fas fa-star"></i>
                                     {% else %}
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="far fa-star"></i>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -40,10 +40,9 @@
                     <div class="location_meta">
                         <p><i class="fa fa-map-marker"></i> {{ hotel.address }}</p>
                         <div class="d-flex flex-wrap">
-                            <span class="badge"><i class="fa fa-wifi"></i> Free WiFi</span>
-                            <span class="badge"><i class="fa fa-parking"></i> Free Parking</span>
-                            <span class="badge"><i class="fa fa-swimming-pool"></i> Pool</span>
-                            <span class="badge"><i class="fa fa-utensils"></i> Restaurant</span>
+                            {%for feature in hotel.hotel_features.all%}
+                            <span class="badge"><i class="{{feature.icon}}"></i> {{feature.name}}</span>
+                            {%endfor%}
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,8 @@
                                     <div class="room_price">
                                         <span>${{ room.price }}</span>
                                         <small>per night</small>
-                                        <a href="#" class="btn book_btn">Book Now</a>
+                                    <a href="{% url 'hotel:room_type_detail' hotel.slug room.slug %}" class="btn book_btn">View More</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -164,9 +164,9 @@
                             <p><i class="fa fa-map-marker"></i> {{ hotel.address }}</p>
                         </div>
                         <div class="social_links">
-                            <a href="{{hotel.facebook}}"><i class="fa fa-facebook"></i></a>
-                            <a href="{{hotel.twitter}}"><i class="fa fa-twitter"></i></a>
-                            <a href="{{hotel.instagram}}"><i class="fa fa-instagram"></i></a>
+                            <a href="{{hotel.facebook}}"><i class="fab fa-facebook"></i></a>
+                            <a href="{{hotel.twitter}}"><i class="fab fa-twitter"></i></a>
+                            <a href="{{hotel.instagram}}"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>

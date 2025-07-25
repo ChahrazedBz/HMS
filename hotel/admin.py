@@ -46,6 +46,7 @@ class HotelFaqsAdmin(admin.ModelAdmin):
 
 class RoomTypeAdmin(admin.ModelAdmin):
     list_display = ["type", "number_of_beds", "room_capacity", "price"]
+    prepopulated_fields = {"slug": ("type",)}
 
 
 class RoomAdmin(admin.ModelAdmin):

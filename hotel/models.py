@@ -145,7 +145,8 @@ class RoomType(models.Model):
     rtid = ShortUUIDField(
         unique=True, length=10, max_length=20, alphabet="abxchdjkiryteqolp"
     )
-    slug = models.SlugField(default=True)
+    description = CKEditor5Field(null=True, blank=True, config_name="default")
+    slug = models.SlugField(unique=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

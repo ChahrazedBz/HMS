@@ -15,10 +15,15 @@
         <link rel="stylesheet" href="{% static 'vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css' %}">
         <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
         <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+        <!-- Font Awesome 5 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
         <!-- main css -->
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
         <link rel="stylesheet" href="{% static 'css/hotel-details.css' %}">
+        <link rel="stylesheet" href="{% static 'css/room_type_detail.css' %}">
+
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -198,6 +203,57 @@ $(document).ready(function(){
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
         smartSpeed: 1000
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    // Initialize room gallery slider
+    $('.room_gallery_slider').owlCarousel({
+        items: 1,
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        smartSpeed: 1000,
+        navText: [
+            '<i class="fas fa-chevron-left"></i>',
+            '<i class="fas fa-chevron-right"></i>'
+        ]
+    });
+
+    // Handle book now buttons
+    $('.book_now_btn').click(function(){
+        const roomId = $(this).data('room-id');
+        $('#booking_form').append(`<input type="hidden" name="room_id" value="${roomId}">`);
+        $('html, body').animate({
+            scrollTop: $("#booking_form").offset().top - 100
+        }, 500);
+    });
+
+    // Booking form submission
+    $('#booking_form').submit(function(e){
+        e.preventDefault();
+        // Add your booking logic here
+        Swal.fire({
+            title: 'Confirm Booking',
+            text: 'Are you sure you want to book this room?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Book Now',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form via AJAX or regular form submission
+                Swal.fire(
+                    'Booked!',
+                    'Your room has been reserved.',
+                    'success'
+                );
+            }
+        });
     });
 });
 </script>

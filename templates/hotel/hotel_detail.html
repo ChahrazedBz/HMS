@@ -129,7 +129,7 @@
                     <div class="widget_body">
                         <form action="{%url 'booking:check_room_available'%}" method="POST" >
                             {%csrf_token%}
-                            <input type="hidden" name="hotel-id" value="{{hotel.id}}">
+                            <input type="hidden" name="hotel_id" value="{{hotel.id}}">
                             <div class="form-group">
                                 <label>Check In</label>
                                 <input type="date" class="form-control" name="checkin">

@@ -88,30 +88,42 @@
                                     <tr>
                                         <td>{{ room.room_number}}</td>
                                         <td>{{room.floor}}</td>
+                                        <input type="hidden" class="room_id_{{room.id}}"value="{{room.id}}" id="room_id">
+                                        <input type="hidden" class="room_number_{{room.id}}" value="{{room.room_number}}"  id="room_number">
+
                                         <td>
                                             <span class="badge badge-{% if room.is_available %}success{% else %}danger{% endif %}">
                                                 {% if room.is_available %}Available{% else %}Booked{% endif %}
                                             </span>
                                         </td>
+                                        
                                         <td>
-                                            {% if room.is_available %}
-                                            <button class="btn btn-sm book_now_btn" data-room-id="{{ room.id }}">
-                                                Book Now
+                                            <button class="btn btn-sm book_now_btn add-to-selection"  data-index="{{ room.id }}">
+                                                Add to Selection
                                             </button>
-                                            {% else %}
-                                            <button class="btn btn-sm btn-secondary" disabled>
-                                                Unavailable
-                                            </button>
-                                            {% endif %}
-                                        </td>
+
+                                            
+                                            
                                     </tr>
                                     {% endfor %}
+
                                 </tbody>
                             </table>
+                                    <input type="hidden" value="{{hotel.id}}" id="id">
+                                    <input type="hidden" value="{{hotel.name}}" id="hotel_name">
+                                    <input type="hidden" value="{{room_type.type}}" id="room_name">
+                                    <input type="hidden" value="{{room_type.price}}" id="room_price">
+                                    <input type="hidden" value="{{room_type.number_of_beds}}" id="number_of_beds">
+                                    <input type="hidden" value="{{room_type.id}}" id="room_type">
+                                    <input type="hidden" value="{{checkin}}" id="checkin">
+                                    <input type="hidden" value="{{checkout}}" id="checkout">
+                                    <input type="hidden" value="{{adult}}" id="adult">
+                                    <input type="hidden" value="{{children}}" id="children">
                         </div>
                     </div>
                 </div>
             </div>
+                                    
 
             <!-- Booking Widget Column -->
             <div class="col-lg-4">

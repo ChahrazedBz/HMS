@@ -23,12 +23,12 @@ def index(request):
 
 
 def hotel_detail(request, slug):
-    hotel = Hotel.objects.get(status="Live",slug=slug)
+    hotel = Hotel.objects.get(status="Live", slug=slug)
     features = hotel.hotel_features()
     half = len(features) // 2 + len(features) % 2
     left_features = features[:half]
     right_features = features[half:]
-   
+
     context = {
         "hotel": hotel,
         "left_features": left_features,
@@ -40,7 +40,22 @@ def hotel_detail(request, slug):
 def room_type_detail(request, slug, rt_slug):
     hotel = Hotel.objects.get(status="Live", slug=slug)
     room_type = RoomType.objects.get(hotel=hotel, slug=rt_slug)
-    rooms = Room.objects.filter( room_type=room_type,is_available=True)
+    rooms = Room.objects.filter(room_type=room_type, is_available=True)
 
-    context = {"hotel": hotel, "room_type": room_type, "rooms": rooms}
+    id = request.GET.get("hotel-id")
+    checkin = request.GET.get("checkin")
+    checkout = request.GET.get("checkout")
+    adult = request.GET.get("adult")
+    children = request.GET.get("children")
+
+    context = {
+        "hotel": hotel,
+        "room_type": room_type,
+        "rooms": rooms,
+        "id": id,
+        "checkin": checkin,
+        "checkout": checkout,
+        "adult": adult,
+        "children": children,
+    }
     return render(request, "hotel/room_type_detail.html", context)

@@ -170,6 +170,7 @@ class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     room_number = models.CharField(max_length=100)
+    floor=models.PositiveIntegerField(default=1)
     is_available = models.BooleanField(default=True)
     rid = ShortUUIDField(
         unique=True, length=10, max_length=20, alphabet="abxchdjkiryteqolp"

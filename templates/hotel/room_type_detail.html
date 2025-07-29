@@ -78,6 +78,7 @@
                                 <thead>
                                     <tr>
                                         <th>Room Number</th>
+                                        <th>Room Floor</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -86,6 +87,7 @@
                                     {% for room in rooms%}
                                     <tr>
                                         <td>{{ room.room_number}}</td>
+                                        <td>{{room.floor}}</td>
                                         <td>
                                             <span class="badge badge-{% if room.is_available %}success{% else %}danger{% endif %}">
                                                 {% if room.is_available %}Available{% else %}Booked{% endif %}

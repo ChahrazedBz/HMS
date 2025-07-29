@@ -127,33 +127,48 @@
                         <h3>Check Availability</h3>
                     </div>
                     <div class="widget_body">
-                        <form>
+                        <form action="{%url 'booking:check_room_available'%}" method="POST" >
+                            {%csrf_token%}
+                            <input type="hidden" name="hotel-id" value="{{hotel.id}}">
                             <div class="form-group">
                                 <label>Check In</label>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" name="checkin">
                             </div>
                             <div class="form-group">
                                 <label>Check Out</label>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" name="checkout">
                             </div>
-                            <div class="form-group">
-                                <label>Guests</label>
-                                <select class="form-control">
-                                    <option>1 Adult</option>
-                                    <option>2 Adults</option>
-                                    <option>3 Adults</option>
-                                    <option>Family (2+2)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Rooms</label>
-                                <select class="form-control">
-                                    <option>1 Room</option>
-                                    <option>2 Rooms</option>
-                                    <option>3 Rooms</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-block booking_btn">Check Availability</button>
+                                <div class="form-container" style="max-width: 500px; margin: 0 auto; padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+
+                                    <!-- Guests Section -->
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Guests</label>
+                                        <div style="display: flex; gap: 15px;">
+                                            <div style="flex: 1;">
+                                                <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #555;">Adults</label>
+                                                <input type="number" class="form-control"name="adult" min="1" max="10" value="1" 
+                                                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #555;">Children</label>
+                                                <input type="number" class="form-control" name="children" min="0" max="10" value="0" 
+                                                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Room Type Section (moved up, same styling) -->
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Room Type</label>
+                                        <select class="form-control" name="room_type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                                            {% for room in hotel.room_type.all %}
+                                            <option>{{ room.slug }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                            <button type="submit" class="btn btn-block booking_btn" >Check Availability</button>
                         </form>
                     </div>
                     <div class="widget_footer">

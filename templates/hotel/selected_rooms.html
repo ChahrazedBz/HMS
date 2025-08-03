@@ -1,0 +1,193 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Selected Rooms Hero Section -->
+<section class="selected_hero" style="background-image: url('{% static "images/booking-hero.jpg" %}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="selected_hero_title">Your Selected Rooms</h1>
+                <p class="selected_hero_subtitle">Review your selection and complete your booking</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Selected Rooms Section -->
+<section class="selected_rooms_section section_gap">
+    <div class="container">
+        <div class="row">
+            <!-- Selected Rooms Column -->
+            <div class="col-lg-8">
+                <div class="selected_rooms_header mb-4">
+                    <h3>Your Selected Rooms ({{ total_selected_items }})</h3>
+                    <p>You can review or remove rooms before booking</p>
+                </div>
+
+                {% for id, item in data.items %}
+                <div class="selected_room_card mb-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="selected_room_image">
+                                <img src="{{ room_type.image.url }}" alt="{{ room_type.type }}" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="selected_room_info">
+                                <h4>{{ room_type.type }} Room</h4>
+                                <div class="room_meta">
+                                    <span><i class="fas fa-door-open"></i> Room {{ room_type.room_number }}</span>
+                                    <span><i class="fas fa-layer-group"></i> Floor {{ room_type.floor }}</span>
+                                </div>
+                                <div class="room_features">
+                                    <span><i class="fas fa-user"></i> {{ room_type.room_capacity }} Guests</span>
+                                    <span><i class="fas fa-bed"></i> {{ room_type.number_of_beds }} Beds</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                    <div class="selected_room_actions d-flex align-items-center justify-content-between">
+                        <div class="room_price">
+                        ${{ item.room_price }} <small>/ night</small>
+                        </div>
+                        <button class="btn btn-sm btn-danger remove_room_btn" data-room-id="{{ item.room_id }}">
+                        <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty_selection text-center py-5">
+                    <i class="fas fa-hotel fa-3x mb-3"></i>
+                    <h4>No rooms selected yet</h4>
+                    <p>Browse our rooms and add them to your selection</p>
+                    <a href="#" class="btn btn-primary">View Rooms</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Booking Summary Column -->
+            <div class="col-lg-4">
+                <div class="booking_summary_widget sticky-top">
+                    <div class="widget_header">
+                        <h3>Booking Summary</h3>
+                    </div>
+                    <div class="widget_body">
+                        <div class="summary_hotel_info mb-4">
+                            <h5>{{ hotel.name }}</h5>
+                            <div class="hotel_rating mb-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= hotel.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span>({{ hotel.review_count }} reviews)</span>
+                            </div>
+                            <p><i class="fas fa-map-marker-alt"></i> {{ hotel.address }}</p>
+                        </div>
+
+                        <div class="summary_dates mb-4">
+                            <div class="date_item">
+                                <span>Check-in</span>
+                                <strong>{{ checkin }}</strong>
+                            </div>
+                            <div class="date_item">
+                                <span>Check-out</span>
+                                <strong>{{ checkout }}</strong>
+                            </div>
+                            <div class="stay_duration">
+                                <span>Total nights:</span>
+                                <strong>
+                                    {{ total_days }} nights
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div class="summary_guests mb-4">
+                            <div class="guests_item">
+                                <span>Adults</span>
+                                <strong>{{ adult }}</strong>
+                            </div>
+                            <div class="guests_item">
+                                <span>Children</span>
+                                <strong>{{ children }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="price_breakdown">
+                            <div class="price_item">
+                                <span>Room Price ({{ total_selected_items }} rooms)</span>
+                                <span>${{ total|floatformat:2 }}</span>
+                            </div>
+                            <div class="price_item">
+                                <span>Taxes & Fees</span>
+                                <span>taxes</span>
+                            </div>
+                            <div class="price_total">
+                                <span>Total</span>
+                                <span>${{ total }}</span>
+                            </div>
+                        </div>
+
+                        <div class="promo_code mt-4">
+                            <h5>Apply Promo Code</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter promo code">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block booking_btn mt-4" {% if not data %}disabled{% endif %}>
+                            Proceed to Checkout
+                        </button>
+
+                        <div class="secure_booking mt-3 text-center">
+                            <i class="fas fa-lock"></i>
+                            <small>Your booking is secure and encrypted</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Book With Us Section -->
+<section class="why_book_section section_gap bg-light">
+    <div class="container">
+        <h2 class="section_title text-center mb-5">Why Book With Us?</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="benefit_icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4>Secure Booking</h4>
+                <p>Your personal information is protected with 256-bit encryption.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="benefit_icon">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <h4>Best Price Guarantee</h4>
+                <p>Found a better price? We'll match it and give you 10% extra.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="benefit_icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h4>24/7 Customer Support</h4>
+                <p>Our team is available anytime to assist with your booking.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

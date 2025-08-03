@@ -12,5 +12,6 @@ urlpatterns = [
         views.room_type_detail,
         name="room_type_detail",
     ),
-    path("selected_rooms/",views.selected_rooms,name=" selected_rooms")
+    path("selected_rooms/",views.selected_rooms,name=" selected_rooms"),
+    path("checkout/<str:booking_id>/",views.checkout,name="checkout"),
 ]

@@ -349,3 +349,56 @@
         margin-bottom: 0;
     }
 }
+/* Billing Information Form Styles */
+.billing_information .card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+}
+
+.billing_information .card-header {
+    background: #1ec6b6;
+    color: white;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+}
+
+.billing_information .card-header h3 {
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.billing_information .card-body {
+    padding: 25px;
+}
+
+.billing_information label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.billing_information .form-control {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 15px;
+    height: auto;
+}
+
+.billing_information .form-control:focus {
+    border-color: #1ec6b6;
+    box-shadow: 0 0 0 0.2rem rgba(30, 198, 182, 0.25);
+}
+
+.billing_information .form-check {
+    margin-top: 15px;
+}
+
+.billing_information .form-check-input {
+    margin-top: 0.3rem;
+}
+
+.billing_information .form-check-label {
+    font-weight: normal;
+    color: #555;
+}

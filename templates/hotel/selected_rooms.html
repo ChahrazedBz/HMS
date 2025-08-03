@@ -48,16 +48,15 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                    <div class="selected_room_actions d-flex align-items-center justify-content-between">
-                        <div class="room_price">
-                        ${{ item.room_price }} <small>/ night</small>
+                            <div class="selected_room_actions d-flex align-items-center justify-content-between">
+                                <div class="room_price">
+                                    ${{ item.room_price }} <small>/ night</small>
+                                </div>
+                                <button class="btn btn-sm btn-danger remove_room_btn" data-room-id="{{ item.room_id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-sm btn-danger remove_room_btn" data-room-id="{{ item.room_id }}">
-                        <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                    </div>
-
                     </div>
                 </div>
                 {% empty %}
@@ -68,6 +67,59 @@
                     <a href="#" class="btn btn-primary">View Rooms</a>
                 </div>
                 {% endfor %}
+
+                <!-- Billing Information Form -->
+                <div class="billing_information mt-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">Billing Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="billingForm" method="POST">
+                                {%csrf_token%}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fullName">Full Name *</label>
+                                            <input type="text" name="full_name" class="form-control" id="fullName" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Email Address *</label>
+                                            <input type="email" name="email" class="form-control" id="email" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number *</label>
+                                            <input  type="tel"  name="phone" class="form-control" id="phone" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="specialRequests">Special Requests (Optional)</label>
+                                            <input type="text" class="form-control" id="specialRequests">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="createAccount">
+                                        <label class="form-check-label" for="createAccount">
+                                            Create an account for faster booking next time
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" form="billingForm" class="btn btn-block booking_btn mt-4" {% if not data %}disabled{% endif %}>
+                                    Complete Booking
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Booking Summary Column -->
@@ -145,8 +197,8 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-block booking_btn mt-4" {% if not data %}disabled{% endif %}>
-                            Proceed to Checkout
+                        <button type="submit" form="billingForm" class="btn btn-block booking_btn mt-4" {% if not data %}disabled{% endif %}>
+                            Complete Booking
                         </button>
 
                         <div class="secure_booking mt-3 text-center">

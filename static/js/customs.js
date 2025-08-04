@@ -54,6 +54,7 @@ $(document).ready(function(){
             },
             success:function(response){
                 console.log(response);
+                button.html("<i class='fas fa-check'> Added to Selection</i>")
                 
             }
 
@@ -63,3 +64,35 @@ $(document).ready(function(){
         
     })
 })
+
+
+
+//Delete Items from cart
+$(document).on('click','.delete-item',function(){
+    let id=$(this).attr("data-item")
+    let button=$(this)
+
+    $.ajax({
+        url:'/booking/delete_selection/',
+        data:{
+            'id':id
+        },
+        dataType:"json",
+        beforeSend:function(){
+            button.text("...")
+        },
+        success:function(res){
+            $(".selection-list").html(res.data)
+        
+            
+        }
+
+    })
+    
+})
+
+// //from django.contrib.sessions.models import Session
+
+// # Delete all sessions
+// Session.objects.all().delete()
+// print("All sessions cleared.")

@@ -1,5 +1,8 @@
-from django.http import HttpResponseRedirect,JsonResponse
+from datetime import datetime
+
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 from hotel.models import (
@@ -44,7 +47,7 @@ def check_room_available(request):
 def add_room_selection(request):
     room_selection = {}
 
-    room_selection[str(request.GET["id"])]= {
+    room_selection[str(request.GET["id"])] = {
         "hotel_id": request.GET["hotel_id"],
         "hotel_name": request.GET["hotel_name"],
         "room_name": request.GET["room_name"],
@@ -59,21 +62,84 @@ def add_room_selection(request):
         "children": request.GET["children"],
     }
 
-    if 'selection_data_obj' in request.session:
-        if str(request.GET["id"]) in request.session['selection_data_obj']:
-            selection_data=request.session['selection_data_obj']
-            selection_data[str(request.GET["id"])]['adult']=int(room_selection[str(request.GET["id"])]['adult'])
-            selection_data[str(request.GET["id"])]['children']=int(room_selection[str(request.GET["id"])]['children'])
-            request.session['selection_data_obj']=selection_data
+    if "selection_data_obj" in request.session:
+        if str(request.GET["id"]) in request.session["selection_data_obj"]:
+            selection_data = request.session["selection_data_obj"]
+            selection_data[str(request.GET["id"])]["adult"] = int(
+                room_selection[str(request.GET["id"])]["adult"]
+            )
+            selection_data[str(request.GET["id"])]["children"] = int(
+                room_selection[str(request.GET["id"])]["children"]
+            )
+            request.session["selection_data_obj"] = selection_data
         else:
-            selection_data=request.session['selection_data_obj']
+            selection_data = request.session["selection_data_obj"]
             selection_data.update(room_selection)
-            request.session['selection_data_obj']=selection_data
-    else: 
-        request.session['selection_data_obj']=room_selection
+            request.session["selection_data_obj"] = selection_data
+    else:
+        request.session["selection_data_obj"] = room_selection
 
-    data={
-        'data':request.session['selection_data_obj'],
-        'total_selected_data':len(request.session['selection_data_obj'])
+    data = {
+        "data": request.session["selection_data_obj"],
+        "total_selected_data": len(request.session["selection_data_obj"]),
     }
     return JsonResponse(data)
+
+
+def delete_selection(request):
+    hotel_id = str(request.GET["id"])
+    if "selection_data_obj" in request.session:
+        if hotel_id in request.session["selection_data_obj"]:
+            selection_data = request.session["selection_data_obj"]
+            del selection_data[hotel_id]
+            request.session["selection_data_obj"] = selection_data
+
+    total = 0
+    room_count = 0
+    total_days = 0
+    adult = 0
+    children = 0
+    checkin = ""
+    checkout = ""
+    hotel = None
+    for h_id, item in request.session["selection_data_obj"].items():
+        id = int(item["hotel_id"])
+        checkin = item["checkin"]
+        checkout = item["checkout"]
+        adult = int(item["adult"])
+        children = int(item["children"])
+        room_type = int(item["room_type"])
+        room_id = int(item["room_id"])
+
+        room_type = RoomType.objects.get(id=room_type)
+
+        date_format = "%Y-%m-%d"
+        checkin_date = datetime.strptime(checkin, date_format)
+        checkout_date = datetime.strptime(checkout, date_format)
+        time_defference = checkout_date - checkin_date
+        total_days = time_defference.days
+
+        room_count += 1
+        days = total_days
+        price = room_type.price
+
+        room_price = price * room_count
+        total = room_price * days
+
+    context = render_to_string(
+        "hotel/async/selected_rooms.html",
+        {
+            "data": request.session["selection_data_obj"],
+            "total_selected_items": len(request.session["selection_data_obj"]),
+            "total":total,
+            "total_days":total_days,
+            "adult":adult,
+            "children":children,
+            "checkin":checkin,
+            "checkout":checkout,
+            "hotel":hotel
+        },
+    )
+    print("context=============",context)
+
+    return JsonResponse({"data":context,"total_selected_items":len(request.session["selection_data_obj"])})

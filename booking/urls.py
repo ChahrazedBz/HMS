@@ -10,6 +10,9 @@ urlpatterns = [
     ),
     path(
         "add_room_selection/", views.add_room_selection, name="add_room_selection"
+    ),
+    path(
+        "delete_selection/", views.delete_selection, name="delete_selection"
     )
     
 ]

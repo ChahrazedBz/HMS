@@ -145,10 +145,14 @@ def selected_rooms(request):
             room_type=RoomType.objects.get(id=room_type)
 
             date_format="%Y-%m-%d"
-            checkin_date=datetime.strptime(checkin,date_format)
-            checkout_date=datetime.strptime(checkout,date_format)
-            time_defference=checkout_date-checkin_date
-            total_days=time_defference.days
+            if checkin and checkout:
+                checkin_date=datetime.strptime(checkin,date_format)
+                checkout_date=datetime.strptime(checkout,date_format)
+                time_defference=checkout_date-checkin_date
+                total_days=time_defference.days
+            else:
+                messages.error(request, "Missing check-in or check-out date.")
+                return redirect("/")
 
             room_count +=1
             days=total_days

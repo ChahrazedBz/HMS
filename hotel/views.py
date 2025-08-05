@@ -1,6 +1,8 @@
-from django.shortcuts import render,redirect
-from django.contrib import messages
 from datetime import datetime
+
+from django.contrib import messages
+from django.shortcuts import redirect, render
+
 from hotel.models import (
     ActivityLog,
     Booking,
@@ -63,43 +65,42 @@ def room_type_detail(request, slug, rt_slug):
 
 
 def selected_rooms(request):
-    total=0
-    room_count=0
-    total_days=0
-    adult=0
-    children=0
-    checkin=''
-    checkout=''
-    
-    if 'selection_data_obj' in request.session:
+    total = 0
+    room_count = 0
+    total_days = 0
+    adult = 0
+    children = 0
+    checkin = ""
+    checkout = ""
 
-        if request.method =='POST':
-            for h_id ,item in request.session['selection_data_obj'].items():
-                id=int(item['hotel_id'])
-                checkin=item['checkin']
-                checkout=item['checkout']
-                adult=int(item['adult'])
-                children=int(item['children'])
-                room_type=int(item['room_type'])
-                room_id=int(item['room_id'])
-                
-                user=request.user
-                hotel=Hotel.objects.get(id=id)
-                room_type=RoomType.objects.get(id=room_type)
-                room=Room.objects.get(id=room_id)
+    if "selection_data_obj" in request.session:
 
-            
-            date_format="%Y-%m-%d"
-            checkin_date=datetime.strptime(checkin,date_format)
-            checkout_date=datetime.strptime(checkout,date_format)
-            time_defference=checkout_date-checkin_date
-            total_days=time_defference.days
+        if request.method == "POST":
+            for h_id, item in request.session["selection_data_obj"].items():
+                id = int(item["hotel_id"])
+                checkin = item["checkin"]
+                checkout = item["checkout"]
+                adult = int(item["adult"])
+                children = int(item["children"])
+                room_type = int(item["room_type"])
+                room_id = int(item["room_id"])
 
-            full_name=request.POST.get('full_name')
-            email=request.POST.get('email')
-            phone=request.POST.get('phone')
+                user = request.user
+                hotel = Hotel.objects.get(id=id)
+                room_type = RoomType.objects.get(id=room_type)
+                room = Room.objects.get(id=room_id)
 
-            booking=Booking.objects.create(
+            date_format = "%Y-%m-%d"
+            checkin_date = datetime.strptime(checkin, date_format)
+            checkout_date = datetime.strptime(checkout, date_format)
+            time_defference = checkout_date - checkin_date
+            total_days = time_defference.days
+
+            full_name = request.POST.get("full_name")
+            email = request.POST.get("email")
+            phone = request.POST.get("phone")
+
+            booking = Booking.objects.create(
                 hotel=hotel,
                 room_type=room_type,
                 check_in_date=checkin,
@@ -110,83 +111,100 @@ def selected_rooms(request):
                 full_name=full_name,
                 email=email,
                 phone=phone,
-                user=request.user or None
+                user=request.user or None,
             )
-            for h_id ,item in request.session['selection_data_obj'].items():
-                room_id=int(item["room_id"])
-                room=Room.objects.get(id=room_id)
+            for h_id, item in request.session["selection_data_obj"].items():
+                room_id = int(item["room_id"])
+                room = Room.objects.get(id=room_id)
                 booking.room.add(room)
 
-                room_count +=1
-                days=total_days
-                price=room_type.price
+                room_count += 1
+                days = total_days
+                price = room_type.price
 
-                room_price=price*room_count
-                total=room_price *days
-            
-            booking.total +=float(total)
-            booking.before_discount +=float(total)
+                room_price = price * room_count
+                total = room_price * days
+
+            booking.total += float(total)
+            booking.before_discount += float(total)
             booking.save()
 
-            return redirect("hotel:checkout",booking.booking_id)
+            return redirect("hotel:checkout", booking.booking_id)
 
+        hotel = None
+        for h_id, item in request.session["selection_data_obj"].items():
+            id = int(item["hotel_id"])
+            checkin = item["checkin"]
+            checkout = item["checkout"]
+            adult = int(item["adult"])
+            children = int(item["children"])
+            room_type = int(item["room_type"])
+            room_id = int(item["room_id"])
 
+            room_type = RoomType.objects.get(id=room_type)
 
-        hotel=None
-        for h_id ,item in request.session['selection_data_obj'].items():
-            id=int(item['hotel_id'])
-            checkin=item['checkin']
-            checkout=item['checkout']
-            adult=int(item['adult'])
-            children=int(item['children'])
-            room_type=int(item['room_type'])
-            room_id=int(item['room_id'])
-
-            room_type=RoomType.objects.get(id=room_type)
-
-            date_format="%Y-%m-%d"
+            date_format = "%Y-%m-%d"
             if checkin and checkout:
-                checkin_date=datetime.strptime(checkin,date_format)
-                checkout_date=datetime.strptime(checkout,date_format)
-                time_defference=checkout_date-checkin_date
-                total_days=time_defference.days
+                checkin_date = datetime.strptime(checkin, date_format)
+                checkout_date = datetime.strptime(checkout, date_format)
+                time_defference = checkout_date - checkin_date
+                total_days = time_defference.days
             else:
                 messages.error(request, "Missing check-in or check-out date.")
                 return redirect("/")
 
-            room_count +=1
-            days=total_days
-            price=room_type.price
+            room_count += 1
+            days = total_days
+            price = room_type.price
 
-            room_price=price*room_count
-            total=room_price *days
-            hotel=Hotel.objects.get(id=id)
-        context={
-            'data':request.session['selection_data_obj'],
-            'total_selected_items':len(request.session['selection_data_obj']),
-            "checkin":checkin,
-            "checkout":checkout,
-            "adult":adult,
-            "children":children,
-            "room_type":room_type,
-            "room_id":room_id,
-            "total_days":total_days,
-            "total":total,
-            "hotel":hotel
-            
-
+            room_price = price * room_count
+            total = room_price * days
+            hotel = Hotel.objects.get(id=id)
+        context = {
+            "data": request.session["selection_data_obj"],
+            "total_selected_items": len(request.session["selection_data_obj"]),
+            "checkin": checkin,
+            "checkout": checkout,
+            "adult": adult,
+            "children": children,
+            "room_type": room_type,
+            "room_id": room_id,
+            "total_days": total_days,
+            "total": total,
+            "hotel": hotel,
         }
-        return render(request,"hotel/selected_rooms.html",context)
+        return render(request, "hotel/selected_rooms.html", context)
 
     else:
-        messages.warning(request,"No rooms has been selected yet")
+        messages.warning(request, "No rooms has been selected yet")
         return redirect("/")
 
-def checkout(request,booking_id):
-    booking=Booking.objects.get(booking_id=booking_id)
 
-    context={
-        'booking':booking
-    }
+def checkout(request, booking_id):
+    booking = Booking.objects.get(booking_id=booking_id)
+    if request.method == "POST":
+        code = request.POST.get("code")
+        try:
+            coupon = Coupon.objects.get(code__iexact=code, active=True)
+            if coupon in booking.coupons.all():
+                messages.warning(request, "coupon already activated")
+                return redirect("hotel:checkout", booking.booking_id)
+            else:
+                if coupon.type == "Percentage":
+                    discount = booking.total * coupon.discount / 100
+                else:
+                    discount = coupon.discount
 
-    return render(request,"hotel/checkout.html",context)
+                booking.coupons.add(coupon)
+                booking.total -= discount
+                booking.saved += discount
+                booking.save()
+
+                messages.success(request, "coupon  activated")
+                return redirect("hotel:checkout", booking.booking_id)
+        except:
+            messages.error(request, "coupon  doesnt exist")
+            return redirect("hotel:checkout", booking.booking_id)
+    context = {"booking": booking}
+
+    return render(request, "hotel/checkout.html", context)

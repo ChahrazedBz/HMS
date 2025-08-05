@@ -54,7 +54,15 @@ $(document).ready(function(){
             },
             success:function(response){
                 console.log(response);
+                $(".room-count").text(response.total_selected_data);
+                // Show the badge if there are selected items, hide it otherwise
+                if (response.total_selected_data > 0) {
+                    $(".room-count").show();
+                } else {
+                    $(".room-count").hide();
+                }
                 button.html("<i class='fas fa-check'> Added to Selection</i>")
+                
                 
             }
 
@@ -82,6 +90,7 @@ $(document).on('click','.delete-item',function(){
             button.text("...")
         },
         success:function(res){
+            $(".room-count").text(res.total_selected_items)
             $(".selection-list").html(res.data)
         
             

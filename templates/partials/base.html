@@ -65,6 +65,18 @@
                             {%else%}
                             <li class="nav-item"><a class="nav-link" href="{%url 'userauth:sign-out'%}">Logout</a></li>
                             {%endif%}
+                            <li class="nav-item">
+                            <a class="nav-link room-selection-indicator" href="{% url 'hotel:selected_rooms' %}">
+                                <div class="d-flex align-items-center position-relative">
+                                    <i class="fas fa-bed fa-lg" style="color: #1ec6b6;"></i>
+                                    {% if request.session.selection_data_obj|length > 0 %}
+                                    <span class="badge-counter  ">
+                                        {{ request.session.selection_data_obj|length }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </li>
                         </ul>
                     </div> 
                 </nav>

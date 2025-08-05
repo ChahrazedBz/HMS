@@ -187,6 +187,9 @@
                         <br>
                         <div id="paypal-button-container"></div>
 
+                       <button type="button"  class="btn btn-block booking_btn mt-4" id="checkout-button" style="background-color: #635bff; border-color: #635bff; color: white;">
+                            <i class="fab fa-cc-stripe mr-2" style="font-size: 1.2rem;"></i> Stripe
+                        </button>
                         <button type="submit" form="billingForm" class="btn btn-block booking_btn mt-4" >
                             Complete Booking
                         </button>
@@ -263,5 +266,36 @@
             })
         }
     }).render("#paypal-button-container")
+</script>
+
+<script>
+    var stripe=Stripe('{{stripe_publishable_key}}');
+    var checkoutButton=document.getElementById("checkout-button");
+
+    checkoutButton.addEventListener("click",function(){
+        var email="{{booking.email}}";
+        checkoutButton.innerHTML=
+        "Processing <i class='fas fa-spinner fa-spin'></i>";
+        
+        fetch("/api/create_checkout_session/{{booking.booking_id}}/",{
+            method:"POST",
+            body:JSON.stringify(
+                {email:email}
+            )
+        }).then(function(response){
+            console.log(response);
+            return response.json();
+        }).then(function(session){
+            return stripe.redirectToCheckout({sessionId:session.sessionId});
+        }).then(function(result){
+            if(result.error){
+                alert(result.error.messsage);
+            }
+        })
+        .catch(function(error){
+            console.log("Error",error);
+        });
+    });
+
 </script>
 {% endblock %}

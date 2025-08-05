@@ -1,7 +1,12 @@
 from datetime import datetime
 
+import stripe
+from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from hotel.models import (
     ActivityLog,
@@ -205,6 +210,52 @@ def checkout(request, booking_id):
         except:
             messages.error(request, "coupon  doesnt exist")
             return redirect("hotel:checkout", booking.booking_id)
-    context = {"booking": booking}
+    context = {"booking": booking, "stripe_publishable_key": settings.STRIPE_PUBLIC_KEY}
 
     return render(request, "hotel/checkout.html", context)
+
+
+@csrf_exempt
+def create_checkout_session(request, booking_id):
+    booking = Booking.objects.get(booking_id=booking_id)
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    checkout_session = stripe.checkout.Session.create(
+        customer_email=booking.email,
+        payment_method_types=["card"],
+        line_items=[
+            {
+                "price_data": {
+                    "currency": "USD",
+                    "product_data": {"name": booking.full_name},
+                    "unit_amount": int(booking.total * 100),
+                },
+                "quantity": 1,
+            }
+        ],
+        mode="payment",
+        success_url=request.build_absolute_uri(
+            reverse("hotel:success", args=[booking.booking_id])
+        )
+        + "?session_id{CHECKOUT_SESSION_ID}&success_id="
+        + booking.success_id
+        + "&booking_total"
+        + str(booking.total),
+        cancel_url=request.build_absolute_uri(
+            reverse("hotel:failed", args=[booking.booking_id])
+        ),
+    )
+    booking.payment_status = "Processing"
+    booking.stripe_payment_intent = checkout_session["id"]
+    booking.save()
+
+    print("checkout session", checkout_session)
+    return JsonResponse({"sessionId": checkout_session.id})
+
+
+def payment_success(request, booking_id):
+    pass
+
+
+def payment_failed(request, booking_id):
+    pass

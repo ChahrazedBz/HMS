@@ -14,4 +14,12 @@ urlpatterns = [
     ),
     path("selected_rooms/", views.selected_rooms, name="selected_rooms"),
     path("checkout/<str:booking_id>/", views.checkout, name="checkout"),
+    # Payment Routes
+    path(
+        "api/create_checkout_session/<str:booking_id>/",
+        views.create_checkout_session,
+        name="api_checkout_session",
+    ),
+    path("success/<str:booking_id>/", views.payment_success, name="success"),
+    path("failed/<str:booking_id>/", views.payment_failed, name="failed"),
 ]

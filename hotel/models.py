@@ -230,7 +230,6 @@ class Booking(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     stripe_payment_intent = models.CharField(max_length=1000, null=True, blank=True)
     success_id = ShortUUIDField(
-        unique=True,
         length=10,
         max_length=20,
         alphabet="abxchdjkiryteqolp",

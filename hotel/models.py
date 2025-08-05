@@ -170,7 +170,7 @@ class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     room_number = models.CharField(max_length=100)
-    floor=models.PositiveIntegerField(default=1)
+    floor = models.PositiveIntegerField(default=1)
     is_available = models.BooleanField(default=True)
     rid = ShortUUIDField(
         unique=True, length=10, max_length=20, alphabet="abxchdjkiryteqolp"
@@ -203,7 +203,7 @@ class Booking(models.Model):
     room_type = models.ForeignKey(
         RoomType, on_delete=models.SET_NULL, null=True, blank=True
     )
-    coupons=models.ManyToManyField("hotel.coupon",blank=True)
+    coupons = models.ManyToManyField("hotel.coupon", blank=True)
     room = models.ManyToManyField(Room)
     before_discount = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     total = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
@@ -229,7 +229,14 @@ class Booking(models.Model):
     )
     date = models.DateTimeField(auto_now_add=True)
     stripe_payment_intent = models.CharField(max_length=1000, null=True, blank=True)
-    success_id = models.CharField(max_length=1000, null=True, blank=True)
+    success_id = ShortUUIDField(
+        unique=True,
+        length=10,
+        max_length=20,
+        alphabet="abxchdjkiryteqolp",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.booking_id}"

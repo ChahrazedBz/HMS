@@ -183,6 +183,9 @@
                             </div>
                             </form>
                         </div>
+                        <br>
+                        <br>
+                        <div id="paypal-button-container"></div>
 
                         <button type="submit" form="billingForm" class="btn btn-block booking_btn mt-4" >
                             Complete Booking
@@ -228,5 +231,37 @@
         </div>
     </div>
 </section>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 
+
+<script>
+    let booking_total="{{booking.total}}";
+    let booking_id="{{booking.booking_id}}";
+    let success_id="{{booking.success_id}}";
+    
+
+    paypal.Buttons({
+        createOrder:function(data,actions){
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: booking_total
+                    }
+                }]
+            })
+        },
+
+        onApprove:function(data,actions){
+            return actions.order.capture().then(function(Detail){
+                console.log(Detail);
+                if(Detail.status ==="COMPLETED"){
+                    //Redirect to succes page
+                    window.location.href=`/success/${booking_id}/?success=${success_id}&payer_id=${Detail.id}&status=${Detail.status}&booking_total=${booking_total}`;
+                }
+            })
+        }
+    }).render("#paypal-button-container")
+</script>
 {% endblock %}

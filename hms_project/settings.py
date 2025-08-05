@@ -27,6 +27,8 @@ SECRET_KEY = "django-insecure-t3+o*3nn%=(=yv^cwny+llm4+-^_+%&6o+@1!f%=0mhvo7ui3*
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# to remove the about blank page when paypal payment
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 
 # Application definition
@@ -214,18 +216,31 @@ JAZZMIN_UI_TWEAKS = {
 AUTH_USER_MODEL = "userauth.User"
 
 CKEDITOR_5_CONFIGS = {
-    'default': {
-        'theme': 'custom',  
-        'toolbar': [
-            'heading', '|',
-            'bold', 'italic', 'underline', 'strikethrough', '|',
-            'link', 'bulletedList', 'numberedList', '|',
-            'blockQuote', 'insertTable', 'imageUpload', 'mediaEmbed', '|',
-            'code', 'codeBlock', '|',
-            'undo', 'redo'
+    "default": {
+        "theme": "custom",
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "|",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+            "insertTable",
+            "imageUpload",
+            "mediaEmbed",
+            "|",
+            "code",
+            "codeBlock",
+            "|",
+            "undo",
+            "redo",
         ],
-        'language': 'en',
+        "language": "en",
     }
 }
-
-

@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from decimal import Decimal
 import stripe
 from django.conf import settings
 from django.contrib import messages
@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-
+from django.http import HttpResponse
 from hotel.models import (
     ActivityLog,
     Booking,
@@ -19,6 +19,7 @@ from hotel.models import (
     Room,
     RoomType,
     StaffOnDuty,
+    Notification
 )
 
 
@@ -237,7 +238,7 @@ def create_checkout_session(request, booking_id):
         success_url=request.build_absolute_uri(
             reverse("hotel:success", args=[booking.booking_id])
         )
-        + "?session_id{CHECKOUT_SESSION_ID}&success_id="
+        + "?session_id={CHECKOUT_SESSION_ID}&success_id="
         + booking.success_id
         + "&booking_total"
         + str(booking.total),
@@ -254,8 +255,48 @@ def create_checkout_session(request, booking_id):
 
 
 def payment_success(request, booking_id):
-    pass
+    success_id=request.GET.get('success_id')
+    booking_total=request.GET.get('booking_total')
+
+    if success_id and booking_total :
+        success_id=success_id.rstripe("/")
+        booking_total=booking_total.rstripe("/")
+
+        booking=Booking.objects.get(booking_id=booking_id,success_id=success_id)
+        if booking.total==Decimal(booking_total):
+            print("Booking total matched")
+            if booking.payment_status =='Processing':
+                booking.payment_status ='Paid'
+                booking.save()
+
+                noti=Notification.objects.create(
+                    booking=booking,
+                    type="Booking Confirmed",
+                )
+                if request.user.is_authenticated:
+                    noti.user=request.user
+                else:
+                    noti.user=None
+
+                noti.save()
+
+                if 'selection_data_obj' in request.session:
+                    del request.session['selection_data_obj']
+            else:
+                messages.success(request,"Payment made already ,Thanks for your patronage")
+
+        else:
+            print("Error : Payment manipulation detected")
+
+
+    context={
+        'booking':booking
+    }
+
+    return render(request,"hotel/payment_success.html",context)
 
 
 def payment_failed(request, booking_id):
-    pass
+    return render(request,"hotel/payment_failed.html")
+
+    

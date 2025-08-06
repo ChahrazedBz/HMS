@@ -11,6 +11,7 @@ from hotel.models import (
     Room,
     RoomType,
     StaffOnDuty,
+    Notification
 )
 
 class HotelGalleryInline(admin.TabularInline):
@@ -79,3 +80,4 @@ admin.site.register(Booking, BookingAdmin)
 admin.site.register(ActivityLog, ActivityLogAdmin)
 admin.site.register(StaffOnDuty, StaffOnDutyAdmin)
 admin.site.register(Coupon, CouponAdmin)
+admin.site.register(Notification)

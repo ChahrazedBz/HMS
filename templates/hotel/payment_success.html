@@ -1,0 +1,83 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Payment Success Hero Section -->
+<section class="payment-success-hero" style="background-image: url('{% static "images/payment-success-bg.jpg" %}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="payment-success-title">Payment Successful!</h1>
+                <p class="payment-success-subtitle">Your booking has been confirmed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Success Content -->
+<section class="payment-success-content section_gap">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="success-icon mb-4">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <h2 class="mb-3">Thank You for Your Booking!</h2>
+                <p class="lead mb-4">Your payment has been processed successfully. We've sent a confirmation to <strong>{{booking.email}}</strong> with all the details.</p>
+                
+                <div class="booking-details-card">
+                    <h4 class="mb-3">Booking Summary</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Booking ID:</strong> {{ booking.booking_id }}</p>
+                            <p><strong>Check-in:</strong> {{ booking.check_in_date }}</p>
+                            <p><strong>Check-out:</strong> {{ booking.check_out_date }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total Paid:</strong> ${{ booking.total }}</p>
+                            <p><strong>Payment Method:</strong> {% if payer_id %}PayPal{% else %}Stripe{% endif %}</p>
+                            <p><strong>Status:</strong> Confirmed</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons mt-5">
+                    <a href="#" class="btn btn-primary btn-lg mr-3">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Go to Dashboard
+                    </a>
+                    <a href="#" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> View Invoice
+                    </a>
+                </div>
+                
+                <div class="additional-info mt-5">
+                    <h5 class="mb-3">What's Next?</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-item">
+                                <i class="fas fa-envelope"></i>
+                                <p>Check your email for confirmation</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-item">
+                                <i class="fas fa-hotel"></i>
+                                <p>Prepare for your stay</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-item">
+                                <i class="fas fa-question-circle"></i>
+                                <p>Need help? Contact support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -24,7 +24,6 @@ ICON_TYPE = (
     ("Flat Icons", "Flat Icons"),
 )
 
-
 PAYMENT_STATUS = (
     ("Paid", "Paid"),
     ("Pending", "Pending"),
@@ -36,6 +35,19 @@ PAYMENT_STATUS = (
     ("refunded", "refunded"),
     ("unpaid", "unpaid"),
     ("expired", "expired"),
+)
+
+NOTIFICATION_TYPE = (
+    ("Booking Confirmed", "Booking Confirmed"),
+    ("Booking Cancelled", "Booking Cancelled"),
+)
+
+RATING = (
+    (1, "One Star"),
+    (2, "Two Star"),
+    (3, "Three Star"),
+    (4, "Four Star"),
+    (5, "Five Star"),
 )
 
 
@@ -279,3 +291,28 @@ class Coupon(models.Model):
 
     def __str__(self):
         return f"{self.code}"
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    booking = models.ForeignKey(
+        Booking, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    type = models.CharField(max_length=100, choices=NOTIFICATION_TYPE)
+    seen = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.booking.booking_id}"
+
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    hotel = models.ForeignKey(Hotel, on_delete=models.SET_NULL, null=True, blank=True)
+    bid = ShortUUIDField(
+        unique=True, length=10, max_length=20, alphabet="ahsgbfnuimeowl"
+    )
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.bid)
